@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IN ANOTHER SESSION | Webcomic by fans</title>
+  <!-- Enlace a FontAwesome para los íconos de las ventanas -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+  <!-- Enlace al archivo CSS externo -->
+  <link rel="stylesheet" href="style.css?v=5">
+  <style>
+    /* ==========================================================
+       LOADER EN LA ESQUINA INFERIOR DERECHA (MÁS GRANDE)
+       ========================================================== */
+    .loading-overlay {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      top: auto;
+      left: auto;
+      width: auto;
+      height: auto;
+      background-color: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(2px);
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Imagen más grande y giratoria */
+    .loading-spinner-img {
+      width: 120px; /* Tamaño más grande (puedes ajustarlo si lo quieres aún mayor) */
+      height: 120px;
+      object-fit: contain;
+      animation: girarImagen 1s linear infinite;
+    }
+
+    /* Clase para detener la rotación antes de desaparecer */
+    .loading-spinner-img.stopped {
+      animation: none !important;
+    }
+
+    @keyframes girarImagen {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ELEMENTO DE AUDIO GLOBAL -->
+  <audio id="click-audio" src="imagenes/pesterchum-cease-end-message-sound.mp3" preload="auto"></audio>
+
+  <!-- OVERLAY DE FONDO -->
+  <div class="body-overlay"></div>
+
+  <!-- PANTALLA DE CARGA / GUARDADO EN LA ESQUINA DERECHA -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <img id="spinnerImg" class="loading-spinner-img" src="imagenes/gus(1).png" alt="Cargando...">
+  </div>
+
+  <!-- BARRA DE NAVEGACIÓN SUPERIOR -->
+  <div class="navbar">
+      <ul>
+          <li>Services</li>
+          <li>Blog</li>
+          <li>About</li>
+          <li>Contact</li>
+      </ul>
+  </div>
+
+  <!-- CONTENEDOR GENERAL -->
+  <div class="content">
+
+    <!-- MARQUESINA RETRO 2000s -->
+    <div class="vintage-marquee">
+      <marquee behavior="scroll" direction="left" scrollamount="5">
+        ★ ¡BIENVENIDOS A IN ANOTHER SESSION! ★ HOMESTUCK FAN-PROJECT ★
+      </marquee>
+    </div>
+    
+    <!-- BANNER SUPERIOR -->
+    <div class="header-banner">
+      <img src="imagenes/banner.png" alt="[Banner MS Paint Adventures]">
+    </div>
+ 
+    <!-- CONTENEDOR PRINCIPAL / VENTANA DE CÓMIC -->
+    <div class="comic-container window strips draggable">
+      
+      <!-- Cabecera de la ventana con botones a la derecha -->
+      <div class="window-header">
+        <p>IN ANOTHER SESSION</p>
+        <div class="buttons">
+            <div class="button minimize"><i class="fas fa-window-minimize"></i></div>
+            <div class="button maximize"><i class="far fa-square"></i></div>
+            <div class="button close"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+
+      <!-- Contenedor interior blanco encerrado -->
+      <div class="window-body-wrapper">
+        <div class="window-body">
+          <div class="page-title">
+            Inicio.
+          </div>
+
+          <div class="image-box">
+            <img src="imagenes/kris_pc2 (3).png" alt="[dibujo/imagen aquí]">
+          </div>
+          
+          <div class="story-text">
+            Un muchacho se encuentra jugando en su ordenador, da la casualidad de que hoy 7 de mayo del 2026
+            es su cumpleaños número 17, pareciera que no le importara mucho por estar concentrado en sus asuntos,
+            pero solo está revisando sus chats, dentro de poco tendría que ponerse a hacer algo productivo,
+            pero primero ¿cómo se llama este muchacho?
+          </div>
+
+          <div class="next-command">
+            <a href="index2.html">&gt; Insertar nombre.</a>
+          </div>
+
+          <div class="control-panel">
+            <div class="save-group">
+              <button type="button" class="game-btn" onclick="reproducirClick(); saveGame();">Save Game</button> <span class="help-tag">(?)</span>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="reproducirClick(); toggleAutoSave()">Auto-Save! <span id="auto-save-status">(Off)</span></button>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="cargarPartidaConSonido()">Load Game</button>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="reproducirClick(); deleteGameData()">Delete Game Data</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- FIN DE COMIC CONTAINER -->
+
+    <!-- CAJA DE LINKS Y PERFIL (CON EL MISMO ESTILO DE VENTANA) -->
+    <div class="links-box window strips">
+      
+      <div class="window-header">
+        <p>Enlaces & Info</p>
+        <div class="buttons">
+            <div class="button close"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+
+      <div class="window-body-wrapper">
+        <div class="window-body">
+          <div class="links-container-flex">
+            <div style="position: relative; width: 220px; height: 220px; display: inline-block; flex-shrink: 0;">
+              <img src="imagenes/nath y san.png" alt="[Tu Imagen]" style="position: absolute; top: 35px; left: 35px; width: 140px; height: 140px; object-fit: cover; border-radius: 12px; z-index: 1;">
+              <img src="imagenes/aeroborder.png" alt="[Marco Aero]" style="position: absolute; top: 0; left: 0; width: 220px; height: 220px; z-index: 2; pointer-events: none;">
+            </div>
+
+            <div class="links-list">
+              <p><a href="https://homestuck.com/" target="_blank" onclick="reproducirClick()">==&gt; HOMESTUCK</a></p>
+              <p><a href="index.html" onclick="reproducirClick()">==&gt; Inicio</a></p>
+              <p><a href="indexpcdekris.html" onclick="reproducirClick()">==&gt; CONTRASEÑA</a></p>
+              <p><a href="https://youtu.be/dQw4w9WgXcQ?si=PXXJ1u_5uVQzBlXv" target="_blank" onclick="reproducirClick()">==&gt; Super duper link</a></p>
+            </div>
+          </div>
+
+          <div style="width: 100%;">
+            <div class="links-footer-text">
+              Webcomic creado por fans y para los fans, todo aqui fue hecho con el mas puro amor a la obra original de Andrew Hussie.
+              todo aqui fue hecho con mucho esfuerzo y tiempo de parte de 2 personas, agradeceriamos su apoyo en nuestras redes sociales,
+            </div>
+            <div style="margin-top: 8px;">
+              <p><span class="pester-kris">Un cordial saludo, Kris.</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div> <!-- FIN DE CONTENT -->
+
+  <!-- SCRIPT DE INTERACT.JS PARA MOVER VENTANAS -->
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+  <script>
+      interact('.draggable').draggable({
+          inertia: true,
+          modifiers: [
+              interact.modifiers.restrictRect({
+                  restriction: 'parent',
+                  endOnly: true,
+              }),
+          ],
+          autoScroll: true,
+          listeners: {
+              move: dragMoveListener,
+          },
+      });
+
+      function dragMoveListener(event) {
+          var target = event.target;
+          var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+          var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+          target.style.webkitTransform = target.style.transform =
+              'translate(' + x + 'px, ' + y + 'px)';
+
+          target.setAttribute('data-x', x);
+          target.setAttribute('data-y', y);
+      }
+      window.dragMoveListener = dragMoveListener;
+  </script>
+
+  <!-- SCRIPT DE GUARDADO, ANIMACIÓN Y AUDIO -->
+  <script>
+    const currentFileName = window.location.pathname.split('/').pop() || 'index.html';
+
+    /* ==========================================================
+       FUNCIÓN DE LOADER ANIMADO (GIRA, PARA Y DESAPARECE)
+       ========================================================== */
+    function mostrarLoaderYEjecutar(accionCallback) {
+      const overlay = document.getElementById('loadingOverlay');
+      const spinner = document.getElementById('spinnerImg');
+
+      // 1. Mostrar pantalla y empezar a girar
+      spinner.classList.remove('stopped');
+      overlay.classList.add('active');
+
+      // 2. Simular proceso durante 800ms
+      setTimeout(() => {
+        // Detener la rotación (simulando que ya terminó)
+        spinner.classList.add('stopped');
+
+        // Ejecutar la acción correspondiente (guardar, cargar, etc.)
+        accionCallback();
+
+        // 3. Mantener detenido un momento antes de desvanecer por completo
+        setTimeout(() => {
+          overlay.classList.remove('active');
+        }, 600);
+
+      }, 800);
+    }
+
+    function saveGame() {
+      localStorage.setItem('homestuck_saved_page', currentFileName);
+      mostrarLoaderYEjecutar(() => {
+        // Guardado fluido sin alertas de texto
+      });
+    }
+
+    function loadGame() {
+      const savedPage = localStorage.getItem('homestuck_saved_page');
+      if (!savedPage) {
+        alert('No hay ninguna partida guardada.');
+        return;
+      }
+      mostrarLoaderYEjecutar(() => {
+        window.location.href = savedPage;
+      });
+    }
+
+    function cargarPartidaConSonido() {
+      const savedPage = localStorage.getItem('homestuck_saved_page');
+      if (!savedPage) {
+        alert('No hay ninguna partida guardada.');
+        return;
+      }
+
+      const audioClick = document.getElementById('click-audio');
+      if (audioClick) {
+        audioClick.currentTime = 0;
+        audioClick.play().catch(e => console.log("Audio bloqueado:", e));
+      }
+
+      mostrarLoaderYEjecutar(() => {
+        window.location.href = savedPage;
+      });
+    }
+
+    function deleteGameData() {
+      if (confirm('¿Estás seguro de que quieres borrar los datos de guardado?')) {
+        localStorage.removeItem('homestuck_saved_page');
+        localStorage.removeItem('homestuck_autosave');
+        const autoSaveStatus = document.getElementById('auto-save-status');
+        if (autoSaveStatus) autoSaveStatus.innerText = '(Off)';
+        
+        mostrarLoaderYEjecutar(() => {});
+      }
+    }
+
+    function toggleAutoSave() {
+      const isAuto = localStorage.getItem('homestuck_autosave') === 'true';
+      if (isAuto) {
+        localStorage.setItem('homestuck_autosave', 'false');
+        document.getElementById('auto-save-status').innerText = '(Off)';
+      } else {
+        localStorage.setItem('homestuck_autosave', 'true');
+        localStorage.setItem('homestuck_saved_page', currentFileName);
+        document.getElementById('auto-save-status').innerText = '(On)';
+      }
+    }
+
+    window.onload = function() {
+      const autoSaveStatus = document.getElementById('auto-save-status');
+      const isAuto = localStorage.getItem('homestuck_autosave') === 'true';
+
+      if (isAuto) {
+        localStorage.setItem('homestuck_saved_page', currentFileName);
+        if (autoSaveStatus) autoSaveStatus.innerText = '(On)';
+      } else {
+        if (autoSaveStatus) autoSaveStatus.innerText = '(Off)';
+      }
+    };
+
+    function reproducirClick() {
+      const audioClick = document.getElementById('click-audio');
+      if (audioClick) {
+        audioClick.currentTime = 0;
+        audioClick.play().catch(e => console.log("Audio bloqueado:", e));
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IN ANOTHER SESSION | Webcomic by fans</title>
+  <!-- Enlace a FontAwesome para los íconos de las ventanas -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+  <!-- Enlace al archivo CSS externo -->
+  <link rel="stylesheet" href="style.css?v=5">
+  <style>
+    /* ==========================================================
+       LOADER EN LA ESQUINA INFERIOR DERECHA (MÁS GRANDE)
+       ========================================================== */
+    .loading-overlay {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      top: auto;
+      left: auto;
+      width: auto;
+      height: auto;
+      background-color: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(2px);
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Imagen más grande y giratoria */
+    .loading-spinner-img {
+      width: 120px; /* Tamaño más grande (puedes ajustarlo si lo quieres aún mayor) */
+      height: 120px;
+      object-fit: contain;
+      animation: girarImagen 1s linear infinite;
+    }
+
+    /* Clase para detener la rotación antes de desaparecer */
+    .loading-spinner-img.stopped {
+      animation: none !important;
+    }
+
+    @keyframes girarImagen {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ELEMENTO DE AUDIO GLOBAL -->
+  <audio id="click-audio" src="imagenes/pesterchum-cease-end-message-sound.mp3" preload="auto"></audio>
+
+  <!-- OVERLAY DE FONDO -->
+  <div class="body-overlay"></div>
+
+  <!-- PANTALLA DE CARGA / GUARDADO EN LA ESQUINA DERECHA -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <img id="spinnerImg" class="loading-spinner-img" src="imagenes/gus(1).png" alt="Cargando...">
+  </div>
+
+  <!-- BARRA DE NAVEGACIÓN SUPERIOR -->
+  <div class="navbar">
+      <ul>
+          <li>Services</li>
+          <li>Blog</li>
+          <li>About</li>
+          <li>Contact</li>
+      </ul>
+  </div>
+
+  <!-- CONTENEDOR GENERAL -->
+  <div class="content">
+
+    <!-- RECTÁNGULO MARCO LARGO ENVOLVENTE (ESTILO VENTANA) -->
+    <div class="comic-container window strips draggable">
+
+      <!-- Cabecera de la ventana con los botones a la derecha -->
+      <div class="window-header">
+        <p>IN ANOTHER SESSION</p>
+        <div class="buttons">
+            <div class="button minimize"><i class="fas fa-window-minimize"></i></div>
+            <div class="button maximize"><i class="far fa-square"></i></div>
+            <div class="button close"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+  
+      <!-- Cuerpo interior de la ventana -->
+      <div class="window-body-wrapper">
+        <div class="window-body">
+          <div class="page-title">
+            Insertar nombre.
+          </div>
+
+          <div class="image-box">
+            <img src="imagenes/kris_pc2 (1).png" alt="[Dibujo]">
+          </div>
+
+          <div class="story-text">
+            <p>El muchacho se da cuenta de lo que quieres hacer y se niega a que le des uno,
+            ya que él mismo se había puesto uno propio hace unos años.</p>
+
+            <p>El muchacho te dirá su nombre si lo pides amablemente.</p>
+          </div>
+
+          <!-- COMANDO PARA IR A LA SIGUIENTE PÁGINA -->
+          <div class="next-command">
+            <a href="index3.html">&gt; Insertar nombre.</a>
+          </div>
+
+          <!-- PANEL DE CONTROL -->
+          <div class="control-panel">
+            <div class="nav-group">
+              <a href="index.html" class="game-btn" onclick="reproducirClick()">Start over</a>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="reproducirClick(); window.history.back()">Go back</button>
+            </div>
+
+            <span class="group-separator"></span>
+
+            <!-- Grupo de guardado -->
+            <div class="save-group">
+              <button type="button" class="game-btn" onclick="reproducirClick(); saveGame()">Save Game</button> <span class="help-tag">(?)</span>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="reproducirClick(); toggleAutoSave()">Auto-Save! <span id="auto-save-status">(Off)</span></button>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="cargarPartidaConSonido()">Load Game</button>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="reproducirClick(); deleteGameData()">Delete Game Data</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div> <!-- FIN DE CONTENT -->
+
+  <!-- SCRIPT DE INTERACT.JS PARA MOVER VENTANAS -->
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+  <script>
+      interact('.draggable').draggable({
+          inertia: true,
+          modifiers: [
+              interact.modifiers.restrictRect({
+                  restriction: 'parent',
+                  endOnly: true,
+              }),
+          ],
+          autoScroll: true,
+          listeners: {
+              move: dragMoveListener,
+          },
+      });
+
+      function dragMoveListener(event) {
+          var target = event.target;
+          var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+          var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+          target.style.webkitTransform = target.style.transform =
+              'translate(' + x + 'px, ' + y + 'px)';
+
+          target.setAttribute('data-x', x);
+          target.setAttribute('data-y', y);
+      }
+      window.dragMoveListener = dragMoveListener;
+  </script>
+
+ <!-- SCRIPT DE GUARDADO, ANIMACIÓN Y AUDIO -->
+  <script>
+    const currentFileName = window.location.pathname.split('/').pop() || 'index.html';
+
+    /* ==========================================================
+       FUNCIÓN DE LOADER ANIMADO (GIRA, PARA Y DESAPARECE)
+       ========================================================== */
+    function mostrarLoaderYEjecutar(accionCallback) {
+      const overlay = document.getElementById('loadingOverlay');
+      const spinner = document.getElementById('spinnerImg');
+
+      // 1. Mostrar pantalla y empezar a girar
+      spinner.classList.remove('stopped');
+      overlay.classList.add('active');
+
+      // 2. Simular proceso durante 800ms
+      setTimeout(() => {
+        // Detener la rotación (simulando que ya terminó)
+        spinner.classList.add('stopped');
+
+        // Ejecutar la acción correspondiente (guardar, cargar, etc.)
+        accionCallback();
+
+        // 3. Mantener detenido un momento antes de desvanecer por completo
+        setTimeout(() => {
+          overlay.classList.remove('active');
+        }, 600);
+
+      }, 800);
+    }
+
+    function saveGame() {
+      localStorage.setItem('homestuck_saved_page', currentFileName);
+      mostrarLoaderYEjecutar(() => {
+        // Guardado fluido sin alertas de texto
+      });
+    }
+
+    function loadGame() {
+      const savedPage = localStorage.getItem('homestuck_saved_page');
+      if (!savedPage) {
+        alert('No hay ninguna partida guardada.');
+        return;
+      }
+      mostrarLoaderYEjecutar(() => {
+        window.location.href = savedPage;
+      });
+    }
+
+    function cargarPartidaConSonido() {
+      const savedPage = localStorage.getItem('homestuck_saved_page');
+      if (!savedPage) {
+        alert('No hay ninguna partida guardada.');
+        return;
+      }
+
+      const audioClick = document.getElementById('click-audio');
+      if (audioClick) {
+        audioClick.currentTime = 0;
+        audioClick.play().catch(e => console.log("Audio bloqueado:", e));
+      }
+
+      mostrarLoaderYEjecutar(() => {
+        window.location.href = savedPage;
+      });
+    }
+
+    function deleteGameData() {
+      if (confirm('¿Estás seguro de que quieres borrar los datos de guardado?')) {
+        localStorage.removeItem('homestuck_saved_page');
+        localStorage.removeItem('homestuck_autosave');
+        const autoSaveStatus = document.getElementById('auto-save-status');
+        if (autoSaveStatus) autoSaveStatus.innerText = '(Off)';
+        
+        mostrarLoaderYEjecutar(() => {});
+      }
+    }
+
+    function toggleAutoSave() {
+      const isAuto = localStorage.getItem('homestuck_autosave') === 'true';
+      if (isAuto) {
+        localStorage.setItem('homestuck_autosave', 'false');
+        document.getElementById('auto-save-status').innerText = '(Off)';
+      } else {
+        localStorage.setItem('homestuck_autosave', 'true');
+        localStorage.setItem('homestuck_saved_page', currentFileName);
+        document.getElementById('auto-save-status').innerText = '(On)';
+      }
+    }
+
+    window.onload = function() {
+      const autoSaveStatus = document.getElementById('auto-save-status');
+      const isAuto = localStorage.getItem('homestuck_autosave') === 'true';
+
+      if (isAuto) {
+        localStorage.setItem('homestuck_saved_page', currentFileName);
+        if (autoSaveStatus) autoSaveStatus.innerText = '(On)';
+      } else {
+        if (autoSaveStatus) autoSaveStatus.innerText = '(Off)';
+      }
+    };
+
+    function reproducirClick() {
+      const audioClick = document.getElementById('click-audio');
+      if (audioClick) {
+        audioClick.currentTime = 0;
+        audioClick.play().catch(e => console.log("Audio bloqueado:", e));
+      }
+    }
+  </script>
+
+</body>
+</html>

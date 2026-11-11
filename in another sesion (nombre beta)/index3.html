@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IN ANOTHER SESSION | Webcomic by fans</title>
+  <!-- Enlace a FontAwesome para los íconos de las ventanas -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+  <!-- Enlace al archivo CSS externo -->
+  <link rel="stylesheet" href="style.css?v=5">
+  <style>
+    /* ==========================================================
+       LOADER EN LA ESQUINA INFERIOR DERECHA (MÁS GRANDE)
+       ========================================================== */
+    .loading-overlay {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      top: auto;
+      left: auto;
+      width: auto;
+      height: auto;
+      background-color: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(2px);
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Imagen más grande y giratoria */
+    .loading-spinner-img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      animation: girarImagen 1s linear infinite;
+    }
+
+    /* Clase para detener la rotación antes de desaparecer */
+    .loading-spinner-img.stopped {
+      animation: none !important;
+    }
+
+    @keyframes girarImagen {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ELEMENTO DE AUDIO GLOBAL -->
+  <audio id="click-audio" src="imagenes/pesterchum-cease-end-message-sound.mp3" preload="auto"></audio>
+
+  <!-- OVERLAY DE FONDO -->
+  <div class="body-overlay"></div>
+
+  <!-- PANTALLA DE CARGA / GUARDADO EN LA ESQUINA DERECHA -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <img id="spinnerImg" class="loading-spinner-img" src="imagenes/gus(1).png" alt="Cargando...">
+  </div>
+
+  <!-- BARRA DE NAVEGACIÓN SUPERIOR -->
+  <div class="navbar">
+      <ul>
+          <li>Services</li>
+          <li>Blog</li>
+          <li>About</li>
+          <li>Contact</li>
+      </ul>
+  </div>
+
+  <!-- CONTENEDOR GENERAL -->
+  <div class="content">
+
+    <!-- CONTENEDOR PRINCIPAL DEL CÓMIC -->
+    <div class="comic-container window strips draggable">
+
+      <!-- Barra de título superior de la ventana principal -->
+      <div class="window-header">
+        <p>IN ANOTHER SESSION</p>
+        <div class="buttons">
+            <div class="button minimize"><i class="fas fa-window-minimize"></i></div>
+            <div class="button maximize"><i class="far fa-square"></i></div>
+            <div class="button close"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+
+      <!-- Cuerpo interior de la ventana principal -->
+      <div class="window-body-wrapper">
+        <div class="window-body">
+          <div class="page-title">
+            prueba de chat.
+          </div>
+
+          <div class="image-box">
+            <img src="imagenes/kris_pc2 (3).png" alt="[Dibujo]">
+          </div>
+
+          <!-- CONTENEDOR PESTERLOG -->
+          <div class="pesterlog-box strips">
+            
+            <!-- CABECERA AMARILLA -->
+            <div class="window-header" style="background: linear-gradient(to bottom, #ffee88 0%, #ffd040 100%); border-bottom: 1px solid #d4a017;">
+              <p style="color: #4a3800; text-shadow: none;">PESTERLOG</p>
+              <div class="buttons">
+                  <div class="button minimize"><i class="fas fa-window-minimize"></i></div>
+                  <div class="button maximize"><i class="far fa-square"></i></div>
+                  <div class="button close"><i class="fas fa-times"></i></div>
+              </div>
+            </div>
+
+            <!-- BANNER DE IMAGEN DEBAJO DE LA CABECERA -->
+            <div class="pesterlog-banner">
+              <img src="imagenes/banner2.png" alt="Pesterlog Banner">
+            </div>
+
+            <div class="window-body-wrapper">
+              <div class="window-body" style="text-align: center;">
+                <details id="mi-pesterlog" ontoggle="manejarSonido(this)">
+                  
+                  <summary class="pesterlog-button" onclick="dispararApertura()">
+                    <span class="button-text">Show Pesterlog</span>
+                  </summary>
+
+                  <div class="pesterlog-content">
+                    <p> -- <span class="pester-kris">cannedHead [CH]</span> empezó a molestar a <span class="pester-nath"> doktorSpiele [DS] </span> a las ahora en punto. --</p>
+                    <p><span class="pester-kris">CH: blablabla.</span></p>
+                    <p><span class="pester-nath">DS: blablabla.</span></p>
+                    <p><span class="pester-kris">CH: blablabla.</span></p>
+                    <p><span class="pester-kris">CH: blablabla.</span></p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+          </div>
+
+
+          <!-- Archivos de audio ocultos -->
+          <audio id="audio-abrir" src="imagenes/alarm_A5GlMHT.mp3" preload="auto"></audio>
+          <audio id="audio-cerrar" src="imagenes/pesterchum-cease-end-message-sound.mp3" preload="auto"></audio>
+
+          <!-- ENLACE SIGUIENTE PÁGINA (SIN SONIDO) -->
+          <div class="next-command">
+            <a href="index4.html">&gt; trollian chat.</a>
+          </div>
+
+          <!-- Tu panel de control (CON SONIDOS EN BOTONES) -->
+          <div class="control-panel">
+            <div class="nav-group">
+              <a href="index.html" class="game-btn" onclick="reproducirClick()">Start over</a>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="reproducirClick(); window.history.back()">Go back</button>
+            </div>
+
+            <span class="group-separator"></span>
+
+            <!-- Grupo de guardado conectado con sonido y retardo -->
+            <div class="save-group">
+              <button type="button" class="game-btn" onclick="reproducirClick(); saveGame()">Save Game</button> <span class="help-tag">(?)</span>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="reproducirClick(); toggleAutoSave()">Auto-Save! <span id="auto-save-status">(Off)</span></button>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="cargarPartidaConSonido()">Load Game</button>
+              <span class="separator">|</span>
+              <button type="button" class="game-btn" onclick="reproducirClick(); deleteGameData()">Delete Game Data</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div> <!-- FIN DE CONTENT -->
+
+   <!-- SCRIPT DE INTERACT.JS PARA MOVER VENTANAS -->
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+  <script>
+      interact('.draggable').draggable({
+          inertia: true,
+          modifiers: [
+              interact.modifiers.restrictRect({
+                  restriction: 'parent',
+                  endOnly: true,
+              }),
+          ],
+          autoScroll: true,
+          listeners: {
+              move: dragMoveListener,
+          },
+      });
+
+      function dragMoveListener(event) {
+          var target = event.target;
+          var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+          var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+          target.style.webkitTransform = target.style.transform =
+              'translate(' + x + 'px, ' + y + 'px)';
+
+          target.setAttribute('data-x', x);
+          target.setAttribute('data-y', y);
+      }
+      window.dragMoveListener = dragMoveListener;
+  </script>
+
+  <!-- SCRIPT DE GUARDADO, PESTERLOG Y AUDIO -->
+  <script>
+    let fueAbiertoPorClick = false;
+
+    function dispararApertura() {
+      const detalles = document.getElementById('mi-pesterlog');
+      // Si está cerrado, significa que el usuario lo va a abrir
+      if (!detalles.open) {
+        fueAbiertoPorClick = true;
+        const audioAbrir = document.getElementById('audio-abrir');
+        audioAbrir.currentTime = 0;
+        audioAbrir.play().catch(e => console.log("Audio bloqueado:", e));
+      }
+    }
+
+    function manejarSonido(detalles) {
+      // Si se acaba de cerrar (y no fue por un click directo controlado arriba)
+      if (!detalles.open) {
+        const audioCerrar = document.getElementById('audio-cerrar');
+        audioCerrar.currentTime = 0;
+        audioCerrar.play().catch(e => console.log("Audio bloqueado:", e));
+      }
+    }
+    
+    const currentFileName = window.location.pathname.split('/').pop() || 'index.html';
+
+    /* ==========================================================
+       FUNCIÓN DE LOADER ANIMADO (GIRA, PARA Y DESAPARECE)
+       ========================================================== */
+    function mostrarLoaderYEjecutar(accionCallback) {
+      const overlay = document.getElementById('loadingOverlay');
+      const spinner = document.getElementById('spinnerImg');
+
+      spinner.classList.remove('stopped');
+      overlay.classList.add('active');
+
+      setTimeout(() => {
+        spinner.classList.add('stopped');
+        accionCallback();
+
+        setTimeout(() => {
+          overlay.classList.remove('active');
+        }, 600);
+
+      }, 800);
+    }
+
+    function saveGame() {
+      localStorage.setItem('homestuck_saved_page', currentFileName);
+      mostrarLoaderYEjecutar(() => {});
+    }
+
+    function loadGame() {
+      const savedPage = localStorage.getItem('homestuck_saved_page');
+      if (!savedPage) {
+        alert('No hay ninguna partida guardada.');
+        return;
+      }
+      mostrarLoaderYEjecutar(() => {
+        window.location.href = savedPage;
+      });
+    }
+
+    function cargarPartidaConSonido() {
+      const savedPage = localStorage.getItem('homestuck_saved_page');
+      if (!savedPage) {
+        alert('No hay ninguna partida guardada.');
+        return;
+      }
+
+      const audioClick = document.getElementById('click-audio');
+      if (audioClick) {
+        audioClick.currentTime = 0;
+        audioClick.play().catch(e => console.log("Audio bloqueado:", e));
+      }
+
+      mostrarLoaderYEjecutar(() => {
+        window.location.href = savedPage;
+      });
+    }
+
+    function deleteGameData() {
+      if (confirm('¿Estás seguro de que quieres borrar los datos de guardado?')) {
+        localStorage.removeItem('homestuck_saved_page');
+        localStorage.removeItem('homestuck_autosave');
+        const autoSaveStatus = document.getElementById('auto-save-status');
+        if (autoSaveStatus) autoSaveStatus.innerText = '(Off)';
+        
+        mostrarLoaderYEjecutar(() => {});
+      }
+    }
+
+    function toggleAutoSave() {
+      const isAuto = localStorage.getItem('homestuck_autosave') === 'true';
+      if (isAuto) {
+        localStorage.setItem('homestuck_autosave', 'false');
+        document.getElementById('auto-save-status').innerText = '(Off)';
+      } else {
+        localStorage.setItem('homestuck_autosave', 'true');
+        localStorage.setItem('homestuck_saved_page', currentFileName);
+        document.getElementById('auto-save-status').innerText = '(On)';
+      }
+    }
+
+    window.onload = function() {
+      const autoSaveStatus = document.getElementById('auto-save-status');
+      const isAuto = localStorage.getItem('homestuck_autosave') === 'true';
+
+      if (isAuto) {
+        localStorage.setItem('homestuck_saved_page', currentFileName);
+        if (autoSaveStatus) autoSaveStatus.innerText = '(On)';
+      } else {
+        if (autoSaveStatus) autoSaveStatus.innerText = '(Off)';
+      }
+    };
+
+    function reproducirClick() {
+      const audioClick = document.getElementById('click-audio');
+      if (audioClick) {
+        audioClick.currentTime = 0;
+        audioClick.play().catch(e => console.log("Audio bloqueado:", e));
+      }
+    }
+  </script>
+
+</body>
+</html>

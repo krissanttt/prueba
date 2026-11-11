@@ -1,0 +1,572 @@
+/* ==========================================================
+   CONFIGURACIÓN GENERAL Y BODY
+   ========================================================== */
+body {
+  background-image: url('imagenes/image_5cf5ba34807d.png');
+  background-size: cover;          
+  background-position: center;     
+  background-repeat: no-repeat;    
+  background-attachment: fixed;    
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: flex-start;
+  padding: 20px 0;
+  cursor: url('imagenes/cursor_normal.cur'), auto;
+}
+
+p, h1 {
+  margin: 0;
+}
+
+a, button, summary, .button {
+  cursor: url('imagenes/cursor_pointer.cur'), pointer;
+}
+
+/* Overlay de fondo */
+.body-overlay {
+  background: url(./nature.jpg) center/cover no-repeat;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+/* Navbar superior */
+.navbar {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  margin-bottom: 20px;
+}
+
+.navbar ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li {
+  margin: 0 0.5rem;
+  padding: 0.8rem 1rem;
+  color: #ffffff;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* ==========================================================
+   ESTRUCTURA DE VENTANA ESTILO VISTA
+   ========================================================== */
+.window {
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.6);
+  width: 650px;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 15px auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.strips {
+  background: repeating-linear-gradient(
+    45deg,
+    transparent -70px,
+    transparent 0px,
+    rgba(255, 255, 255, 0.04) 5px,
+    rgba(255, 255, 255, 0.09) 117px
+  );
+}
+
+/* Cabecera de la ventana con texto a la izquierda y botones a la derecha */
+.window-header {
+  position: relative;
+  padding: 0.6rem 1rem;
+  background: transparent;
+}
+
+.window-header p {
+  color: #000000;
+  text-shadow: 0 0 10px white;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.window-header .buttons {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+
+.window-header .buttons .button {
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.window-header .buttons .button:hover {
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.6) 6px,
+    rgba(0, 0, 0, 0.3) 15px,
+    rgba(255, 255, 255, 0.6) 27px
+  );
+}
+
+.window-header .buttons .button.close {
+  padding-right: 1.2rem;
+  padding-left: 1.2rem;
+  border-bottom-right-radius: 5px;
+}
+
+.window-header .buttons .button.close:hover {
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.6) 6px,
+    rgba(255, 0, 0, 0.7) 15px,
+    rgba(255, 255, 255, 0.6) 27px
+  );
+  color: white;
+}
+
+.window-header .buttons .button.minimize {
+  border-bottom-left-radius: 5px;
+}
+
+/* Contenedor interior blanco encerrado */
+.window-body-wrapper {
+  padding: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.window-body {
+  background: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-radius: 6px;
+  padding: 15px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================================
+   ESTILOS ORIGINALES DE HOMESTUCK
+   ========================================================== */
+
+.vintage-marquee {
+  background: linear-gradient(to bottom, #76eec6 0%, #1e90ff 49%, #0047ab 50%, #00bfff 100%);
+  color: #ffffff;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  padding: 6px 0;
+  border-top: 2px solid #b0efff;
+  border-bottom: 2px solid #002244;
+  border-left: 1px solid #48d1cc;
+  border-right: 1px solid #104e8b;
+  margin-bottom: 15px;
+  text-shadow: 1px 1px #002244;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(0, 0, 0, 0.4), 0 2px 5px rgba(0, 191, 255, 0.4);
+  width: 650px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.header-banner {
+  width: 650px;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.header-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 15px;
+  color: #0c3c60;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.image-box {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  border: 1px solid rgba(140, 175, 200, 0.6);
+  border-radius: 6px;
+  margin: 0 auto 20px auto;
+  background: linear-gradient(135deg, #f0f5fc, #d5e5f5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.06);
+}
+
+.image-box img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 4px;
+}
+
+.story-text {
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+  color: #2b2b2b;
+}
+
+.next-command {
+  font-size: 25px;
+  text-align: left;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.next-command a {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+.next-command a:hover {
+  color: #ff0000;
+}
+
+.control-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: sans-serif;
+  font-size: 12px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.save-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.game-btn {
+  background: none;
+  border: none;
+  color: #0000ee;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.game-btn:hover {
+  color: #551a8b;
+}
+
+.separator {
+  color: #666;
+}
+
+.help-tag {
+  color: #000000;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+/* Links y perfil */
+.links-container-flex {
+  display: flex;
+  flex-direction: row;       
+  align-items: center;         
+  justify-content: flex-start; 
+  gap: 25px;                   
+  width: 100%;
+  padding: 5px;
+}
+
+.links-list {
+  text-align: left;     
+  flex-grow: 1;         
+}
+
+.links-box a {
+  color: #0000ee !important;
+  text-decoration: underline !important;
+}
+
+.links-box a:hover {
+  color: #ff0000 !important;
+}
+
+.links-footer-text {
+  font-size: 15px;
+  color: #3a4049;
+  font-weight: bold;
+  text-align: center;
+  border-top: 1px dashed rgba(51, 139, 226, 0.918);
+  padding-top: 6px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+/* ==========================================================
+   TROLLIAN (CAJA EXTERIOR EN ROJO SANGRE UNIFORME)
+   ========================================================== */
+.trollian-box {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 20px 0;
+  /* Fondo en rojo sangre sólido y profundo (sin tonos rosados) */
+  background-color: #7a0000;
+  backdrop-filter: blur(5px);
+  border: 1px solid #500000;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 5px rgba(100, 0, 0, 0.4);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Rayas diagonales en tonos de rojo sangre oscuro */
+.trollian-box.strips {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent -70px,
+      transparent 0px,
+      rgba(255, 255, 255, 0.04) 5px,
+      rgba(130, 0, 0, 0.3) 117px
+    ),
+    #7a0000;
+}
+
+/* Cabecera del Trollian en tonos rojos */
+.trollian-box .window-header {
+  position: relative;
+  padding: 0.6rem 1rem;
+  background: linear-gradient(to bottom, #e41b1b 0%, #b80e0e 100%);
+  border-bottom: 1px solid #9a0007;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trollian-box .window-header p {
+  color: #ffffff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.trollian-box .window-header .buttons {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+
+.trollian-box .window-header .buttons .button {
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: rgba(168, 65, 65, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.trollian-box .window-header .buttons .button:hover {
+  background: linear-gradient(
+    rgb(255, 255, 255) 6px,
+    rgb(139, 139, 139) 15px,
+    rgb(255, 255, 255) 27px
+  );
+}
+
+.trollian-box .window-header .buttons .button.close {
+  padding-right: 1.2rem;
+  padding-left: 1.2rem;
+  border-bottom-right-radius: 5px;
+}
+
+.trollian-box .window-header .buttons .button.close:hover {
+  background: linear-gradient(
+    rgb(255, 255, 255) 6px,
+    rgb(255, 0, 0) 15px,
+    rgb(255, 255, 255) 27px
+  );
+  color: rgb(192, 25, 25);
+}
+
+.trollian-box .window-body-wrapper {
+  padding: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.trollian-box .window-body {
+  background: rgb(160, 40, 40);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-radius: 6px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================================
+   BOTÓN DEL TROLLIAN EN TONOS ROJOS (DINÁMICO)
+   ========================================================== */
+.trollian-button {
+  display: inline-block;
+  width: auto;
+  background: linear-gradient(
+    to bottom,
+    #fff5f5 0%,
+    #ca2334 45%,
+    #e53935 50%,
+    #ce1b18 100%
+  );
+  border: 1px solid #850000;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 6px 14px;
+  text-align: center;
+  list-style: none;
+  user-select: none;
+  text-shadow: 0 1px 0 rgba(88, 88, 88, 0.8);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 2px 4px rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+  margin: 0 auto;
+}
+
+.trollian-button:hover {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #be1212 45%,
+    #d32f2f 50%,
+    #e53935 100%
+  );
+  border-color: #9a0007;
+  box-shadow: 
+    0 0 8px rgba(229, 57, 53, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Ocultar las flechas por defecto del <summary> */
+summary.trollian-button::-webkit-details-marker {
+  display: none;
+}
+summary.trollian-button {
+  list-style: none;
+}
+
+/* Cambio dinámico de texto al abrir/cerrar (Trollian) */
+details[open] summary.trollian-button span.button-text {
+  display: none;
+}
+details[open] summary.trollian-button::after {
+  content: "Cerrar chat";
+}
+details:not([open]) summary.trollian-button::after {
+  content: "";
+}
+
+/* Contenido del Trollian */
+.trollian-content {
+  background: #dfd0d0 !important;
+  border: 1px solid #f32b2b !important;
+  border-radius: 8px !important;
+  margin-top: 12px;
+  padding: 15px 12px;
+  text-align: left;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+
+.trollian-content p {
+  margin: 6px 0;
+  line-height: 1.4;
+  color: #2b2b2b;
+}
+
+.trollian-content .chat-system-msg {
+  text-align: center;
+  margin: 8px auto 16px auto;
+  color: #555;
+  font-size: 12px;
+  display: block;
+  width: 100%;
+}
+
+/* Colores de personajes */
+.trollian-vincen { color: #814d09; font-weight: bold; }
+.trollian-teiluj { color: #7e20bd; font-weight: bold; }
+
+/* ==========================================================
+   ESTILO PARA EL BANNER DE IMAGEN EN EL TROLLIAN
+   ========================================================== */
+.trollian-banner {
+  width: 100%;
+  height: 45px;
+  overflow: hidden;
+  background-color: #d32f2f;
+  border-bottom: 1px solid #9a0007;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trollian-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

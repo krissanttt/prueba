@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IN ANOTHER SESSION | Perfil del Personaje</title>
+  <!-- Usamos tu mismo archivo CSS principal para mantener idénticos los fondos y marcos -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Ícono en la pestaña del navegador -->
+  <link rel="icon" href="imagenes/gus(1).png" type="image/png">
+</head>
+<body>
+
+  <!-- ELEMENTO DE AUDIO GLOBAL -->
+  <audio id="click-audio" src="imagenes/pesterchum-cease-end-message-sound.mp3" preload="auto"></audio>
+
+  <!-- RECTÁNGULO MARCO LARGO ENVOLVENTE (EL MISMO DEL INDEX 1) -->
+  <div class="outer-wrapper">
+    
+    <!-- BANNER SUPERIOR -->
+    <div class="header-banner">
+      <img src="imagenes/banner.png" alt="[Banner MS Paint Adventures]">
+    </div>
+ 
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="comic-container">
+
+      <!-- Barra de título superior de la ventana -->
+      <div class="win7-titlebar">
+        <span class="win7-title">IN ANOTHER SESSION - Perfil de Usuario</span>
+        <div class="win7-buttons"></div>
+      </div>
+
+      <!-- TÍTULO DE LA PÁGINA -->
+      <div class="page-title">
+        Perfil / Muro de Kris.
+      </div>
+
+      <!-- CONTENEDOR DEL PERFIL (ESTILO BLOG / RED SOCIAL RETRO) -->
+      <div class="profile-container" style="display: flex; gap: 20px; padding: 15px; text-align: left;">
+        
+        <!-- Columna Izquierda: Foto y Estado MSN -->
+        <div style="width: 240px; flex-shrink: 0;">
+          <div style="position: relative; width: 220px; height: 220px; display: inline-block; margin-bottom: 10px;">
+            <img src="imagenes/nath y san.png" alt="[Tu Imagen]" style="position: absolute; top: 35px; left: 35px; width: 140px; height: 140px; object-fit: cover; border-radius: 12px; z-index: 1;">
+            <img src="imagenes/aeroborder.png" alt="[Marco Aero]" style="position: absolute; top: 0; left: 0; width: 220px; height: 220px; z-index: 2; pointer-events: none;">
+          </div>
+          
+          <div class="story-text" style="font-size: 13px; padding: 10px; background: rgba(255,255,255,0.5); border-radius: 6px;">
+            <p><strong>Estado MSN:</strong> 🟢 Conectado</p>
+            <p><strong>Escuchando:</strong> <i>BALLOON-tyler the creator</i></p>
+            <p style="font-style: italic; color: #555;">"revisando chats y evitando responsabilidades."</p>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Muro de publicaciones / Entradas de Blog -->
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
+          
+          <!-- Publicación 1 -->
+          <div style="background: #fff; border: 1px solid #bce0fd; border-radius: 6px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="font-size: 12px; color: #003366; font-weight: bold; margin-bottom: 5px;">
+              Kris <span style="font-weight: normal; color: #666;">actualizó su estado</span>
+            </div>
+            <div class="story-text" style="margin: 0; font-size: 13px;">
+              Feliz cumpleaños número 17 para mí, supongo. Mi ordenador sigue funcionando a duras penas y tengo la bandeja de chats saturada. que weba contestar, voy a comer torta
+            </div>
+          </div>
+
+          <!-- Publicación 2 -->
+          <div style="background: #fff; border: 1px solid #bce0fd; border-radius: 6px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="font-size: 12px; color: #003366; font-weight: bold; margin-bottom: 5px;">
+              doktorSpiele [DS] <span style="font-weight: normal; color: #666;">dejó una nota en el muro</span>
+            </div>
+            <div class="story-text" style="margin: 0; font-size: 13px;">
+              Deja de ignorar los mensajes o te convierto en manzana, Contesta webon.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BOTÓN PARA VOLVER AL CÓMIC (CON SONIDO) -->
+      <div class="next-command" style="text-align: center; margin-top: 20px;">
+        <a href="index.html" onclick="reproducirClick()">&lt; Regresar al Webcómic.</a>
+      </div>
+
+    </div>
+  </div> <!-- FIN DE MARCO LARGO -->
+
+  <!-- SCRIPT DE AUDIO -->
+  <script>
+    function reproducirClick() {
+      const audioClick = document.getElementById('click-audio');
+      if (audioClick) {
+        audioClick.currentTime = 0;
+        audioClick.play().catch(e => console.log("Audio bloqueado:", e));
+      }
+    }
+  </script>
+
+</body>
+</html>

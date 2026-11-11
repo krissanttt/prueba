@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IN ANOTHER SESSION | Win7 Desktop</title>
+  <!-- FontAwesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+  <!-- CSS Principal y CSS del Portafolio -->
+  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="portfolio.css?v=15">
+  <!-- Favicon -->
+  <link rel="icon" href="imagenes/gus(1).png" type="image/png">
+  <style>
+    /* Resolución fija de escritorio 1366x767 centrada y escalable */
+    body.desktop-body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .desktop-container-1366 {
+      position: relative;
+      width: 1366px;
+      height: 767px;
+      max-width: 100%;
+      max-height: 100%;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+
+    /* Iconos del escritorio más cuadrados y compactos */
+    .desktop-icons {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 10;
+    }
+    .desktop-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 2px;
+      transition: background 0.15s, border 0.15s;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid transparent;
+    }
+    .desktop-icon:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .desktop-icon img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.8));
+    }
+    .desktop-icon span {
+      font-size: 0.68em;
+      color: #fff;
+      text-align: center;
+      margin-top: 4px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Estilos para redimensionar ventanas y diseño fluido */
+    .retro-window {
+      min-width: 420px;
+      min-height: 200px;
+      touch-action: none;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+    }
+    .window-body-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Estilos para Pantalla Completa de WMP */
+    .wmp-fullscreen-active {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 999999 !important;
+      border-radius: 0 !important;
+    }
+    .wmp-fullscreen-active .wmp-overlay-ui {
+      position: absolute;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      transition: opacity 0.3s ease;
+    }
+    .wmp-fullscreen-active .wmp-top-ui {
+      top: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    }
+    .wmp-fullscreen-active .wmp-bottom-ui {
+      bottom: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    }
+    .wmp-fullscreen-active.hide-controls .wmp-overlay-ui {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .wmp-fullscreen-active.hide-controls {
+      cursor: none;
+    }
+
+    /* Estilos para los botones de aplicaciones abiertas en la barra de tareas (Estilo Aero Win7) */
+    .taskbar-open-app {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 10px;
+      height: 34px;
+      min-width: 130px;
+      max-width: 160px;
+      background: linear-gradient(to bottom, rgba(70, 75, 85, 0.85) 0%, rgba(30, 35, 45, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-top: 2px solid #3b99fc;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.75em;
+      color: #fff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+      transition: background 0.15s;
+    }
+    .taskbar-open-app:hover {
+      background: linear-gradient(to bottom, rgba(90, 95, 110, 0.9) 0%, rgba(40, 45, 60, 0.95) 100%);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .taskbar-open-app img {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Estilos de chat tipo Facebook / WhatsApp para Pesterchum */
+    .fb-chat-container {
+      display: flex;
+      flex-direction: column;
+      background: #f0f2f5;
+      font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+    .fb-chat-header-info {
+      background: #ffffff;
+      padding: 8px 12px;
+      border-bottom: 1px solid #dadde1;
+      font-size: 0.8em;
+      color: #65676b;
+      text-align: center;
+      font-style: italic;
+      flex-shrink: 0;
+    }
+    .fb-chat-messages {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .fb-msg-row {
+      display: flex;
+      gap: 10px;
+      max-width: 75%;
+    }
+    /* DS (doktorSpiele) a la izquierda */
+    .fb-msg-row.ds {
+      align-self: flex-start;
+    }
+    /* CH (cannedHead) a la derecha */
+    .fb-msg-row.ch {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+    .fb-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #ccc;
+    }
+    .fb-bubble {
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 0.9em;
+      line-height: 1.4;
+      word-break: break-word;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    /* Burbujas DS a la izquierda en Verde Manzana */
+    .fb-msg-row.ds .fb-bubble {
+      background: #76ff03;
+      color: #050505;
+      border-bottom-left-radius: 4px;
+      font-weight: 500;
+    }
+    /* Burbujas CH a la derecha */
+    .fb-msg-row.ch .fb-bubble {
+      background: #0084ff;
+      color: #ffffff;
+      border-bottom-right-radius: 4px;
+    }
+    .fb-sender-name {
+      font-size: 0.75em;
+      color: #65676b;
+      margin-bottom: 3px;
+      font-weight: 600;
+    }
+
+    /* Barra inferior estilo WhatsApp (M, T, E) */
+    .whatsapp-input-bar {
+      display: flex;
+      align-items: center;
+      background: #f0f2f5;
+      padding: 8px 12px;
+      border-top: 1px solid #dadde1;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .wa-tool-btn {
+      background: transparent;
+      border: none;
+      color: #54656f;
+      font-size: 1.2em;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s;
+    }
+    .wa-tool-btn:hover {
+      color: #0084ff;
+    }
+    .wa-text-input {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid #dadde1;
+      border-radius: 20px;
+      padding: 8px 14px;
+      font-size: 0.9em;
+      color: #333;
+      outline: none;
+    }
+    .wa-text-input::placeholder {
+      color: #8c939d;
+    }
+  </style>
+</head>
+<body class="desktop-body" onclick="cerrarMenuFuera(event)">
+
+  <!-- CONTENEDOR GENERAL DE ESCRITORIO A ESCALA 1366x767 -->
+  <div class="desktop-container-1366" id="desktopContainer">
+
+    <!-- PANTALLA DE BLOQUEO / LOGIN WINDOWS 7 -->
+    <div id="lockScreen" class="win7-lock-screen">
+      <div class="lock-user-card">
+        <div style="position: relative; width: 130px; height: 130px; margin: 0 auto 10px auto;">
+          <img src="imagenes/nath y san.png" alt="[Tu Imagen]" style="position: absolute; top: 20px; left: 20px; width: 84px; height: 84px; object-fit: cover; border-radius: 8px; z-index: 1;">
+          <img src="imagenes/aeroborder.png" alt="[Marco Aero]" style="position: absolute; top: 0; left: 0; width: 130px; height: 130px; z-index: 2; pointer-events: none;">
+        </div>
+
+        <h2 class="lock-user-name">Avila</h2>
+        <p class="lock-user-status" id="lockStatus">Insertar contraseña</p>
+
+        <form class="lock-pass-box" onsubmit="validarPassword(event)">
+          <input type="password" id="lockPassInput" placeholder="Contraseña" autofocus>
+          <button type="submit" class="lock-arrow-btn" title="Iniciar sesión">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+
+      <div class="win7-lock-footer">
+        <span class="win7-flag-logo"><i class="fab fa-windows"></i></span>
+        <span class="win7-brand-text">Windows 7 <span>Ultimate</span></span>
+      </div>
+    </div>
+
+    <!-- LOADER -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <img id="spinnerImg" class="loading-spinner-img" src="imagenes/gus(1).png" alt="Cargando...">
+    </div>
+
+    <!-- ESCRITORIO RETRO -->
+    <div class="desktop-icons">
+      <div class="desktop-icon" onclick="abrirVentana('win-video')">
+        <img src="imagenes/iconos/wmp2.ico" alt="Video Player">
+        <span>Video Player</span>
+      </div>
+      <div class="desktop-icon" onclick="abrirVentana('win-music')">
+        <img src="imagenes/iconos/spotify2.ico" alt="Jukebox">
+        <span>Jukebox.exe</span>
+      </div>
+      <div class="desktop-icon" onclick="abrirVentana('win-game1')">
+        <img src="imagenes/iconos/minecraft1.ico" alt="Minecraft">
+        <span>Minecraft</span>
+      </div>
+      <div class="desktop-icon" onclick="abrirVentana('win-game2')">
+        <img src="imagenes/images.png" alt="Pesterchum">
+        <span>Pesterchum</span>
+      </div>
+      <div class="desktop-icon" onclick="abrirVentana('win-about')">
+        <img src="imagenes/iconos/firefox1.ico" alt="Acerca de">
+        <span>Acerca de...</span>
+      </div>
+    </div>
+
+    <!-- VENTANA 1: WINDOWS MEDIA PLAYER -->
+    <div id="win-video" class="window strips draggable retro-window" style="display: none; top: 40px; left: 160px; width: 720px; height: 480px;" onmousedown="traerAlFrente('win-video')">
+      <div class="window-header" id="wmpWindowHeader">
+        <p><i class="fab fa-windows" style="color: #f25022;"></i> Windows Media Player</p>
+        <div class="buttons">
+            <div class="button minimize" onclick="minimizarVentana('win-video')"><i class="fas fa-window-minimize"></i></div>
+            <div class="button close" onclick="cerrarVentana('win-video')"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+      <div class="window-body-wrapper">
+        <div id="wmpContainer" class="window-body" onmousemove="mostrarControlesFSWMP()" style="padding: 0; background: radial-gradient(circle at center, #1b4b6b 0%, #061926 100%); color: #fff; border-radius: 6px; overflow: hidden; height: 100%; display: flex; flex-direction: column; font-family: 'Segoe UI', sans-serif; position: relative;">
+          
+          <div class="wmp-overlay-ui wmp-top-ui" style="display: flex; justify-content: flex-end; padding: 10px 15px; align-items: center; gap: 6px; font-size: 0.8em; color: #b0c4de; flex-shrink: 0; z-index: 5;">
+            <i class="fas fa-bars" onclick="toggleWMPPlaylist()" style="cursor: pointer;"></i>
+            <span onclick="toggleWMPPlaylist()" style="cursor: pointer;">Show List</span>
+          </div>
+
+          <div style="display: flex; flex: 1; overflow: hidden; position: relative; min-height: 0;">
+            <div style="flex: 1; padding: 0 20px; display: flex; flex-direction: column; justify-content: flex-start; min-height: 0; overflow: hidden; position: relative;">
+              <div style="margin-bottom: 10px; flex-shrink: 0;">  </div>
+
+              <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; min-height: 0;">
+                <video id="wmpVideoElement" ontimeupdate="actualizarProgresoWMP()" onended="videoSiguienteWMP()" style="max-width: 100%; max-height: 100%; width: 100%; height: 100%; object-fit: contain; border-radius: 4px; background: #000;"></video>
+              </div>
+            </div>
+
+            <div id="wmpPlaylistPanel" style="width: 220px; background: rgba(8, 25, 38, 0.95); border-left: 1px solid rgba(255,255,255,0.15); display: none; flex-direction: column; padding: 10px; flex-shrink: 0; z-index: 10; backdrop-filter: blur(5px);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 5px;">
+                <span style="font-size: 0.8em; font-weight: bold; color: #7bc5ff;"><i class="fas fa-list"></i> Lista de Videos</span>
+                <i class="fas fa-times" onclick="toggleWMPPlaylist()" style="cursor: pointer; font-size: 0.85em; color: #8fa3b8;"></i>
+              </div>
+              <div id="wmpVideoListContainer" style="display: flex; flex-direction: column; gap: 4px; overflow-y: auto; flex: 1;"></div>
+            </div>
+          </div>
+
+          <div class="wmp-overlay-ui wmp-bottom-ui" style="display: flex; flex-direction: column;">
+            <!-- BARRA DE PROGRESO CON PERILLA -->
+            <div style="padding: 0 20px; flex-shrink: 0; margin-bottom: 6px; margin-top: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.65em; color: #b3b3b3;">
+              <span id="wmpCurrentTime">0:00</span>
+              <input type="range" id="wmpSeekSlider" min="0" max="100" step="0.1" value="0" oninput="cambiarProgresoWMP(this.value)" style="flex: 1; height: 6px; accent-color: #fff; cursor: pointer;">
+              <span id="wmpTotalDuration">0:00</span>
+            </div>
+
+            <!-- BARRA INFERIOR DE CONTROLES WMP -->
+            <div style="background: linear-gradient(to bottom, #112536 0%, #08131d 100%); height: 60px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.15); flex-shrink: 0;">
+              
+              <div style="width: 100px;"></div>
+
+              <div style="display: flex; align-items: center; gap: 16px; color: #d0e1f0;">
+                <i class="fas fa-step-backward" onclick="videoAnteriorWMP()" style="cursor: pointer; font-size: 1.1em;" title="Anterior"></i>
+                
+                <div onclick="togglePlayPauseWMP()" style="width: 38px; height: 38px; background: radial-gradient(circle, #5ba8ff 0%, #1e62d0 100%); border: 1px solid #7bc5ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.4);">
+                  <i id="wmpPlayPauseIcon" class="fas fa-play" style="font-size: 0.95em; color: #fff; margin-left: 2px;"></i>
+                </div>
+                
+                <i class="fas fa-step-forward" onclick="videoSiguienteWMP()" style="cursor: pointer; font-size: 1.1em;" title="Siguiente"></i>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 12px; width: 160px; justify-content: flex-end; color: #d0e1f0;">
+                <i class="fas fa-volume-up" style="font-size: 0.9em;"></i>
+                <input type="range" min="0" max="1" step="0.05" value="1" oninput="cambiarVolumenWMP(this.value)" style="width: 75px; accent-color: #fff; cursor: pointer;">
+                <i class="fas fa-expand" onclick="toggleFullscreenWMP()" style="cursor: pointer; font-size: 0.9em; margin-left: 5px;" title="Pantalla completa"></i>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- VENTANA 2: SPOTIFY -->
+    <div id="win-music" class="window strips draggable retro-window" style="display: none; top: 40px; left: 150px; width: 780px; height: 480px;" onmousedown="traerAlFrente('win-music')">
+      <div class="window-header">
+        <p><i class="fab fa-spotify" style="color: #1db954;"></i> Spotify - In Another Session</p>
+        <div class="buttons">
+            <div class="button minimize" onclick="minimizarVentana('win-music')"><i class="fas fa-window-minimize"></i></div>
+            <div class="button close" onclick="cerrarVentana('win-music')"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+      <div class="window-body-wrapper">
+        <div class="window-body" style="padding: 0; background: #121212; color: #fff; border-radius: 6px; overflow: hidden; height: 100%; display: flex; flex-direction: column; font-family: 'Segoe UI', sans-serif;">
+          <div style="background: #000; height: 45px; display: flex; align-items: center; padding: 0 15px; justify-content: space-between; border-bottom: 1px solid #181818; flex-shrink: 0;">
+            <div style="display: flex; gap: 8px;">
+              <button style="background: rgba(0,0,0,0.7); border: none; color: #7a7a7a; border-radius: 50%; width: 26px; height: 26px; cursor: pointer;"><i class="fas fa-chevron-left"></i></button>
+              <button style="background: rgba(0,0,0,0.7); border: none; color: #7a7a7a; border-radius: 50%; width: 26px; height: 26px; cursor: pointer;"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div style="background: #242424; border-radius: 20px; padding: 5px 15px; display: flex; align-items: center; gap: 8px; width: 240px;">
+              <i class="fas fa-search" style="color: #b3b3b3; font-size: 0.85em;"></i>
+              <span style="color: #b3b3b3; font-size: 0.8em;">What do you want to listen to?</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <img src="imagenes/nath y san.png" alt="Avatar" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+              <span style="font-size: 0.85em; font-weight: bold;">canned Head</span>
+            </div>
+          </div>
+
+          <div style="display: flex; flex: 1; overflow: hidden; min-height: 0;">
+            <div style="width: 200px; min-width: 160px; background: #000; padding: 12px; display: flex; flex-direction: column; justify-content: flex-start; border-right: 1px solid #181818; flex-shrink: 0; overflow-y: auto;">
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <span style="font-size: 0.7em; text-transform: uppercase; color: #b3b3b3; font-weight: bold; margin-bottom: 4px;">Library</span>
+                <button onclick="cambiarSupermix('supermix1')" class="sp-nav-btn active-mix" id="nav-supermix1" style="background: #282828; border: none; color: #fff; padding: 6px 10px; text-align: left; border-radius: 4px; cursor: pointer; font-size: 0.85em;"><i class="fas fa-compact-disc" style="margin-right: 8px; color: #1db954;"></i> Supermix 1</button>
+                <button onclick="cambiarSupermix('supermix2')" class="sp-nav-btn" id="nav-supermix2" style="background: transparent; border: none; color: #b3b3b3; padding: 6px 10px; text-align: left; border-radius: 4px; cursor: pointer; font-size: 0.85em;"><i class="fas fa-compact-disc" style="margin-right: 8px; color: #1db954;"></i> Supermix 2</button>
+                <button onclick="cambiarSupermix('supermix3')" class="sp-nav-btn" id="nav-supermix3" style="background: transparent; border: none; color: #b3b3b3; padding: 6px 10px; text-align: left; border-radius: 4px; cursor: pointer; font-size: 0.85em;"><i class="fas fa-compact-disc" style="margin-right: 8px; color: #1db954;"></i> Supermix 3</button>
+              </div>
+            </div>
+
+            <div style="flex: 1; background: linear-gradient(to bottom, #532020 0%, #121212 40%); padding: 15px; overflow-y: auto; min-width: 200px;" id="spotifyCenterContainer">
+              <div style="display: flex; align-items: flex-end; gap: 15px; margin-bottom: 20px;">
+                <div id="playlistHeaderCover" style="width: 90px; height: 90px; min-width: 90px; background: #333; border-radius: 4px; box-shadow: 0 4px 60px rgba(0,0,0,0.5); overflow: hidden;">
+                  <img id="playlistHeaderImg" src="imagenes/nath y san.png" style="width: 100%; height: 100%; object-fit: cover;" alt="">
+                </div>
+                <div style="overflow: hidden;">
+                  <span style="font-size: 0.7em; text-transform: uppercase; font-weight: bold;">Public Playlist</span>
+                  <h2 id="playlistTitleName" style="font-size: 1.6em; margin: 4px 0; font-weight: 800; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">Supermix 1</h2>
+                  <p style="font-size: 0.75em; color: #b3b3b3; margin: 0;">Creado por kris • <span id="songCountText">2 canciones</span></p>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; width: 100%;">
+                <div style="display: flex; color: #b3b3b3; font-size: 0.75em; border-bottom: 1px solid #282828; padding-bottom: 6px; margin-bottom: 8px; padding-left: 8px;">
+                  <span style="width: 30px;">#</span>
+                  <span style="flex: 1;">TITLE</span>
+                  <span style="width: 80px; text-align: right;"><i class="far fa-clock"></i></span>
+                </div>
+                <div id="spotifySongList" style="display: flex; flex-direction: column; gap: 2px;"></div>
+              </div>
+            </div>
+
+            <div style="width: 190px; min-width: 150px; background: #000; padding: 12px; border-left: 1px solid #181818; display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; overflow-y: auto;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.8em; color: #b3b3b3; font-weight: bold;">Friend activity</span>
+                <i class="fas fa-user-plus" style="color: #b3b3b3; font-size: 0.8em;"></i>
+              </div>
+              
+              <div style="display: flex; gap: 8px; align-items: flex-start;">
+                <div style="position: relative; flex-shrink: 0;">
+                  <img src="imagenes/radiacion.jpg" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" alt="">
+                  <i class="fas fa-music" style="position: absolute; bottom: -2px; right: -2px; font-size: 0.55em; background: #1db954; color: #000; padding: 2px; border-radius: 50%;"></i>
+                </div>
+                <div style="font-size: 0.75em; overflow: hidden;">
+                  <p style="font-weight: bold; margin: 0; color: #fff;">doktorSpiele</p>
+                  <p style="color: #b3b3b3; margin: 2px 0; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">José Torres El Rey de Alto Mando</p>
+                  <p style="color: #666; margin: 0; font-size: 0.9em;"><i class="fas fa-compact-disc"></i> mix super cientifico</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #181818; height: 75px; min-height: 75px; padding: 0 15px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #282828; flex-shrink: 0;">
+            <div style="display: flex; align-items: center; gap: 10px; width: 220px; min-width: 140px;">
+              <img id="footerCoverImg" src="imagenes/nath y san.png" alt="" style="width: 50px; height: 50px; border-radius: 4px; object-fit: cover; flex-shrink: 0;">
+              <div style="overflow: hidden; flex: 1;">
+                <span id="footerSongTitle" style="color: #fff; font-size: 0.8em; font-weight: bold; display: block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">Ninguna seleccionada</span>
+                <span id="footerPlaylistName" style="color: #b3b3b3; font-size: 0.7em; display: block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">In Another Session</span>
+              </div>
+              <i class="far fa-heart" style="color: #1db954; margin-left: 5px; cursor: pointer; flex-shrink: 0;"></i>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; max-width: 500px; min-width: 150px; padding: 0 10px;">
+              <div style="display: flex; align-items: center; gap: 20px; color: #b3b3b3; font-size: 0.9em;">
+                <i class="fas fa-random" style="cursor: pointer; font-size: 0.85em;"></i>
+                <i class="fas fa-step-backward" onclick="cancionAnterior()" style="cursor: pointer;" title="Anterior"></i>
+                <div onclick="togglePlayPause()" style="width: 32px; height: 32px; background: #fff; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                  <i id="playPauseIcon" class="fas fa-play" style="font-size: 0.9em; margin-left: 2px;"></i>
+                </div>
+                <i class="fas fa-step-forward" onclick="cancionSiguiente()" style="cursor: pointer;" title="Siguiente"></i>
+                <i class="fas fa-redo" style="cursor: pointer; font-size: 0.85em;"></i>
+              </div>
+              
+              <div style="display: flex; align-items: center; gap: 8px; width: 100%; font-size: 0.65em; color: #b3b3b3;">
+                <span id="currentTimeLabel">0:00</span>
+                <div id="progressBarContainer" onclick="seekAudio(event)" style="flex: 1; height: 6px; background: #4d4d4d; border-radius: 3px; position: relative; cursor: pointer;">
+                  <div id="progressBarFill" style="width: 0%; height: 100%; background: #fff; border-radius: 3px; position: relative;"></div>
+                </div>
+                <span id="totalDurationLabel">0:00</span>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px; width: 150px; min-width: 100px; justify-content: flex-end; color: #b3b3b3;">
+              <i class="fas fa-volume-up" style="font-size: 0.9em;"></i>
+              <input type="range" min="0" max="1" step="0.05" value="1" id="volumeSlider" oninput="cambiarVolumen(this.value)" style="width: 70px; flex: 1; max-width: 90px; accent-color: #fff; cursor: pointer;">
+            </div>
+          </div>
+
+          <audio id="spotifyAudioPlayer" ontimeupdate="actualizarProgreso()" onended="cancionSiguiente()"></audio>
+        </div>
+      </div>
+    </div>
+
+   <!-- VENTANA 3: maincraft -->
+    <div id="win-game1" class="window strips draggable retro-window" style="display: none; top: 60px; left: 180px; width: 850px; height: 580px;" onmousedown="traerAlFrente('win-game1')">
+      <div class="window-header">
+        <p><i class="fas fa-cube" style="color: #55ff55;"></i> Minecraft - Eaglercraft 1.8.8</p>
+        <div class="buttons">
+            <div class="button minimize" onclick="minimizarVentana('win-game1')"><i class="fas fa-window-minimize"></i></div>
+            <div class="button close" onclick="cerrarVentana('win-game1')"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+      <div class="window-body-wrapper">
+        <div class="window-body" style="padding: 0; background: #111; flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+          
+          <!-- Iframe principal del juego -->
+          <iframe src="https://eaglercraft.com/es/play?version=1.8.8" style="width: 100%; flex: 1; border: none;" sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-downloads" allow="autoplay; fullscreen; pointer-lock" allowfullscreen></iframe>
+          
+          <!-- Barra de respaldo inferior en caso de bloqueo del navegador -->
+          <div style="background: #222; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #333; font-size: 0.75em; color: #aaa;">
+            <span>¿Problemas para ver el juego?</span>
+            <a href="https://eaglercraft.com/es/play?version=1.8.8" target="_blank" style="background: #3b99fc; color: #fff; padding: 4px 10px; border-radius: 3px; text-decoration: none; font-weight: bold;">Abrir en pestaña nueva ↗</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- VENTANA 4: PESTERCHUM -->
+    <div id="win-game2" class="window strips draggable retro-window" style="display: none; top: 60px; left: 320px; width: 480px; height: 440px;" onmousedown="traerAlFrente('win-game2')">
+      
+      <!-- CABECERA AMARILLA -->
+      <div class="window-header" style="background: linear-gradient(to bottom, #ffee88 0%, #ffd040 100%); border-bottom: 1px solid #d4a017; display: flex; justify-content: space-between; align-items: center; padding: 0 8px;">
+        <p style="color: #4a3800; text-shadow: none; margin: 0; font-weight: bold;"><i class="fas fa-comments"></i> Pesterchum - PESTERLOG</p>
+        
+        <div style="display: flex; align-items: center; gap: 8px; height: 100%;">
+          <div style="height: 100%; display: flex; align-items: center;">
+            <img src="imagenes/banner2.png" alt="Banner" style="height: 26px; width: auto; object-fit: contain;">
+          </div>
+          <div class="buttons" style="display: flex; gap: 2px;">
+              <div class="button minimize" onclick="minimizarVentana('win-game2')" style="cursor: pointer;"><i class="fas fa-window-minimize"></i></div>
+              <div class="button close" onclick="cerrarVentana('win-game2')" style="cursor: pointer;"><i class="fas fa-times"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-body-wrapper" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+        <div class="window-body" style="padding: 0; flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+          
+          <!-- CONTENEDOR DE CHAT -->
+          <div class="fb-chat-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column;">
+            
+            <div class="fb-chat-header-info">
+              -- cannedHead [CH] empezó a molestar a doktorSpiele [DS] a las ahora en punto. --
+            </div>
+
+            <div class="fb-chat-messages" style="flex: 1;">
+              <!-- Mensaje 1 (Nath / DS - Izquierda, Verde Manzana) -->
+              <div class="fb-msg-row ds">
+                <img src="imagenes/radiacion.jpg" class="fb-avatar" alt="Nath">
+                <div>
+                  <div class="fb-sender-name">doktorSpiele [DS]</div>
+                  <div class="fb-bubble">blablabla.</div>
+                </div>
+              </div>
+
+              <!-- Mensaje 2 (Kris / CH - Derecha) -->
+              <div class="fb-msg-row ch">
+                <img src="imagenes/gus.png" class="fb-avatar" alt="Kris">
+                <div>
+                  <div class="fb-sender-name" style="text-align: right;">cannedHead [CH]</div>
+                  <div class="fb-bubble">blablabla.</div>
+                </div>
+              </div>
+
+              <!-- Mensaje 3 (Nath / DS - Izquierda, Verde Manzana) -->
+              <div class="fb-msg-row ds">
+                <img src="imagenes/radiacion.jpg" class="fb-avatar" alt="Nath">
+                <div>
+                  <div class="fb-sender-name">doktorSpiele [DS]</div>
+                  <div class="fb-bubble">blablabla.</div>
+                </div>
+              </div>
+
+              <!-- Mensaje 4 (Kris / CH - Derecha) -->
+              <div class="fb-msg-row ch">
+                <img src="imagenes/gus.png" class="fb-avatar" alt="Kris">
+                <div>
+                  <div class="fb-sender-name" style="text-align: right;">cannedHead [CH]</div>
+                  <div class="fb-bubble">blablabla.</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BARRA INFERIOR DE MENSAJE (M: Clip, T: Caja de texto, E: Emoji) -->
+          <div class="whatsapp-input-bar">
+            <button class="wa-tool-btn" title="Menú de adjuntos (imágenes, archivos, ubicación)"><i class="fas fa-paperclip"></i></button>
+            <input type="text" class="wa-text-input" placeholder="Escribe un mensaje...">
+            <button class="wa-tool-btn" title="Emojis"><i class="far fa-smile"></i></button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VENTANA 5: ACERCA DE -->
+    <div id="win-about" class="window strips draggable retro-window" style="display: none; top: 70px; left: 310px; width: 380px; height: 280px;" onmousedown="traerAlFrente('win-about')">
+      <div class="window-header">
+        <p>Acerca de IN ANOTHER SESSION</p>
+        <div class="buttons">
+            <div class="button minimize" onclick="minimizarVentana('win-about')"><i class="fas fa-window-minimize"></i></div>
+            <div class="button close" onclick="cerrarVentana('win-about')"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+      <div class="window-body-wrapper">
+        <div class="window-body" style="text-align: left; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <p style="color: #333;"><strong>Versión:</strong> 6.7 win</p>
+            <p style="color: #333;"><strong>Creado por:</strong>Kris y Mazalie</p>
+            <p style="color: #333;">Un tributo interactivo al universo de Homestuck con estética de los 2000s.</p>
+          </div>
+          <div style="margin-top: 15px; text-align: center;">
+            <a href="index.html" class="game-btn">==> Ir al Webcomic</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENÚ DE INICIO WINDOWS 7 -->
+    <div id="startMenu" class="win7-start-menu" style="display: none;">
+      <div class="start-left">
+        <div class="start-item" onclick="abrirVentana('win-video'); toggleStartMenu(event);">
+          <img src="imagenes/iconos/wmp2.ico" alt="">
+          <span>Video Player</span>
+        </div>
+        <div class="start-item" onclick="abrirVentana('win-music'); toggleStartMenu(event);">
+          <img src="imagenes/iconos/spotify2.ico" alt="">
+          <span>spotify</span>
+        </div>
+        <div class="start-item" onclick="abrirVentana('win-game1'); toggleStartMenu(event);">
+          <img src="imagenes/iconos/minecraft1.ico" alt="">
+          <span>Minecraft</span>
+        </div>
+        <div class="start-item" onclick="abrirVentana('win-game2'); toggleStartMenu(event);">
+          <img src="imagenes/images.png" alt="">
+          <span>Pesterchum</span>
+        </div>
+        <div class="start-item" onclick="abrirVentana('win-about'); toggleStartMenu(event);">
+          <img src="imagenes/iconos/firefox1.ico" alt="">
+          <span>Acerca de...</span>
+        </div>
+        <div class="start-all-programs">
+          <span>Todos los programas</span>
+          <i class="fas fa-play"></i>
+        </div>
+        <div class="start-search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Buscar programas y archivos">
+        </div>
+      </div>
+
+      <div class="start-right">
+        <div class="start-user-avatar-container">
+          <div style="position: relative; width: 110px; height: 110px; margin: 0 auto;">
+            <img src="imagenes/nath y san.png" alt="[Tu Imagen]" style="position: absolute; top: 17px; left: 17px; width: 70px; height: 70px; object-fit: cover; border-radius: 6px; z-index: 1;">
+            <img src="imagenes/aeroborder.png" alt="[Marco Aero]" style="position: absolute; top: 0; left: 0; width: 110px; height: 110px; z-index: 2; pointer-events: none;">
+          </div>
+          <span class="start-user-name">Avila</span>
+        </div>
+
+        <div class="start-right-links">
+          <a href="#">Documentos</a>
+          <a href="#">Imágenes</a>
+          <a href="#">Música</a>
+          <div class="menu-divider"></div>
+          <a href="#">Equipo</a>
+          <a href="#">Panel de control</a>
+          <a href="index.html">Ir al Webcomic Principal</a>
+        </div>
+        <div class="start-power-footer">
+          <button class="power-btn" onclick="bloquearSistema()">Bloquear</button>
+          <button class="power-sub-btn"><i class="fas fa-caret-right"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BARRA DE TAREAS -->
+    <div class="taskbar">
+      <div class="start-btn" id="startBtn" onclick="toggleStartMenu(event)">
+        <div class="win7-orb">
+          <div class="orb-inner"></div>
+        </div>
+        <span>Iniciar</span>
+      </div>
+
+      <!-- CONTENEDOR CENTRAL DINÁMICO DE APLICACIONES ABIERTAS -->
+      <div class="taskbar-center" id="taskbarAppsContainer" style="display: flex; gap: 5px; align-items: center; padding-left: 5px; overflow-x: auto; flex: 1;">
+        <!-- Se llenará automáticamente con JS al abrir ventanas -->
+      </div>
+
+      <div class="taskbar-right">
+        <div class="taskbar-time" id="desktopClock">00:00</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+  <script>
+      interact('.draggable').draggable({
+          inertia: true,
+          allowFrom: '.window-header',
+          modifiers: [
+              interact.modifiers.restrictRect({ restriction: '.desktop-container-1366', endOnly: true }),
+          ],
+          autoScroll: true,
+          listeners: { move: dragMoveListener },
+      }).resizable({
+          edges: { left: true, right: true, bottom: true, top: true },
+          modifiers: [
+              interact.modifiers.restrictEdges({ outer: '.desktop-container-1366' }),
+              interact.modifiers.restrictSize({ min: { width: 300, height: 200 } })
+          ],
+          inertia: true
+      }).on('resizemove', function (event) {
+          var target = event.target;
+          var x = (parseFloat(target.getAttribute('data-x')) || 0);
+          var y = (parseFloat(target.getAttribute('data-y')) || 0);
+          target.style.width = event.rect.width + 'px';
+          target.style.height = event.rect.height + 'px';
+          x += event.deltaRect.left;
+          y += event.deltaRect.top;
+          target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+          target.setAttribute('data-x', x);
+          target.setAttribute('data-y', y);
+      });
+
+      function dragMoveListener(event) {
+          var target = event.target;
+          var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+          var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+          target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+          target.setAttribute('data-x', x);
+          target.setAttribute('data-y', y);
+      }
+      window.dragMoveListener = dragMoveListener;
+
+      function validarPassword(event) {
+        if(event) event.preventDefault();
+        const passInput = document.getElementById('lockPassInput').value;
+        const statusText = document.getElementById('lockStatus');
+        if (passInput === "507") {
+          const lockScreen = document.getElementById('lockScreen');
+          lockScreen.classList.add('unlocking');
+          
+          const elem = document.documentElement;
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen().catch(err => console.log(err));
+          } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+          }
+
+          setTimeout(() => {
+            lockScreen.style.display = 'none';
+            lockScreen.classList.remove('unlocking');
+            statusText.innerText = "Bloqueado";
+            document.getElementById('lockPassInput').value = '';
+          }, 600);
+        } else {
+          statusText.innerText = "Contraseña incorrecta";
+          statusText.style.color = "#ff6666";
+          document.getElementById('lockPassInput').value = '';
+          document.getElementById('lockPassInput').focus();
+        }
+      }
+
+      function bloquearSistema() {
+        const lockScreen = document.getElementById('lockScreen');
+        lockScreen.style.display = 'flex';
+        document.getElementById('startMenu').style.display = 'none';
+        document.getElementById('lockPassInput').value = '';
+        document.getElementById('lockStatus').innerText = "Bloqueado";
+        document.getElementById('lockStatus').style.color = "rgba(255,255,255,0.75)";
+        document.getElementById('lockPassInput').focus();
+      }
+
+      // ==========================================
+      // GESTIÓN DE VENTANAS Y BARRA DE TAREAS DINÁMICA
+      // ==========================================
+      const appMetadata = {
+        'win-video': { title: 'Video Player', icon: 'imagenes/iconos/wmp2.ico' },
+        'win-music': { title: 'Jukebox', icon: 'imagenes/iconos/spotify2.ico' },
+        'win-game1': { title: 'Minecraft', icon: 'imagenes/iconos/minecraft1.ico' },
+        'win-game2': { title: 'Pesterchum', icon: 'imagenes/images.png' },
+        'win-about': { title: 'Acerca de...', icon: 'imagenes/iconos/firefox1.ico' }
+      };
+
+      // Objeto para saber qué aplicaciones han sido lanzadas/abiertas al menos una vez en la sesión
+      const appsAbiertas = {
+        'win-video': false,
+        'win-music': false,
+        'win-game1': false,
+        'win-game2': false,
+        'win-about': false
+      };
+
+      let maxZIndex = 100;
+
+      function traerAlFrente(id) {
+        const win = document.getElementById(id);
+        if (win) {
+          maxZIndex++;
+          win.style.zIndex = maxZIndex;
+        }
+      }
+
+      function abrirVentana(id) {
+        const win = document.getElementById(id);
+        if (win) {
+          appsAbiertas[id] = true; // La marcamos como abierta
+          win.style.display = 'flex';
+          traerAlFrente(id);
+          actualizarBarraDeTareas();
+        }
+      }
+
+      function cerrarVentana(id) {
+        const win = document.getElementById(id);
+        if (win) {
+          appsAbiertas[id] = false; // La marcamos como cerrada (desaparece de la barra)
+          win.style.display = 'none';
+
+          if (id === 'win-video') {
+            const vid = document.getElementById('wmpVideoElement');
+            if (vid) {
+              vid.pause();
+              vid.currentTime = 0;
+              const icon = document.getElementById('wmpPlayPauseIcon');
+              if (icon) icon.className = "fas fa-play";
+            }
+          }
+
+          if (id === 'win-music') {
+            const audio = document.getElementById('spotifyAudioPlayer');
+            if (audio) {
+              audio.pause();
+              audio.currentTime = 0;
+              const playIcon = document.getElementById('playPauseIcon');
+              if (playIcon) playIcon.className = "fas fa-play";
+            }
+          }
+
+          actualizarBarraDeTareas();
+        }
+      }
+
+      function minimizarVentana(id) {
+        const win = document.getElementById(id);
+        if (win) {
+          // Solo se oculta visualmente, pero sigue estando abierta en la barra
+          win.style.display = 'none';
+          actualizarBarraDeTareas();
+        }
+      }
+
+      // Comportamiento exacto Win7 al hacer clic en el botón de la barra de tareas:
+      function manejarClickBarraTareas(id) {
+        const win = document.getElementById(id);
+        if (!win) return;
+
+        const estaVisible = win.style.display !== 'none';
+        const zIndexActual = parseInt(win.style.zIndex || 100, 10);
+
+        if (!estaVisible) {
+          // Está minimizada -> Se muestra y se trae al frente
+          win.style.display = 'flex';
+          traerAlFrente(id);
+        } else {
+          // Está visible. Vemos si es la ventana principal que está al frente del todo
+          let esLaMasAlFrente = true;
+          Object.keys(appMetadata).forEach(otherId => {
+            const otherWin = document.getElementById(otherId);
+            if (otherWin && otherWin.style.display !== 'none' && otherId !== id) {
+              const otherZ = parseInt(otherWin.style.zIndex || 100, 10);
+              if (otherZ > zIndexActual) {
+                esLaMasAlFrente = false;
+              }
+            }
+          });
+
+          if (esLaMasAlFrente) {
+            // Ya estaba al frente -> Se minimiza (esconde) pero SIGUE en la barra
+            win.style.display = 'none';
+          } else {
+            // Estaba abierta pero detrás de otra -> Se trae al frente
+            traerAlFrente(id);
+          }
+        }
+        actualizarBarraDeTareas();
+      }
+
+      function actualizarBarraDeTareas() {
+        const container = document.getElementById('taskbarAppsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+
+        Object.keys(appMetadata).forEach(winId => {
+          // Aparece en la barra si la app fue abierta (y no se cerró con la X)
+          if (appsAbiertas[winId]) {
+            const win = document.getElementById(winId);
+            const meta = appMetadata[winId];
+            const taskBtn = document.createElement('div');
+            taskBtn.className = 'taskbar-open-app';
+            taskBtn.title = meta.title;
+
+            // Si está minimizada (display === 'none'), le bajamos la opacidad para indicarlo visualmente
+            const estaVisible = win && win.style.display !== 'none';
+            if (!estaVisible) {
+              taskBtn.style.opacity = '0.55';
+              taskBtn.style.borderTopColor = 'transparent';
+            } else {
+              taskBtn.style.opacity = '1';
+              taskBtn.style.borderTopColor = '#3b99fc';
+            }
+
+            taskBtn.onclick = () => manejarClickBarraTareas(winId);
+
+            taskBtn.innerHTML = `
+              <img src="${meta.icon}" alt="${meta.title}">
+              <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;">${meta.title}</span>
+            `;
+            container.appendChild(taskBtn);
+          }
+        });
+      }
+
+      function toggleStartMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('startMenu');
+        const btn = document.getElementById('startBtn');
+        if (menu.style.display === 'flex' || menu.style.display === 'block') {
+          menu.style.display = 'none';
+          btn.classList.remove('active');
+        } else {
+          menu.style.display = 'flex';
+          btn.classList.add('active');
+        }
+      }
+
+      function cerrarMenuFuera(event) {
+        const menu = document.getElementById('startMenu');
+        const btn = document.getElementById('startBtn');
+        if (menu && (menu.style.display === 'flex' || menu.style.display === 'block')) {
+          if (!menu.contains(event.target) && !btn.contains(event.target)) {
+            menu.style.display = 'none';
+            btn.classList.remove('active');
+          }
+        }
+      }
+
+      setInterval(() => {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('desktopClock').innerText = `${hours}:${minutes}`;
+      }, 1000);
+
+      // ==========================================
+      // REPRODUCTOR WMP Y LISTA DE VIDEOS
+      // ==========================================
+      const wmpVideosData = [
+          { title: "Video 1", src: "imagenes/videos/Steven Universe Futuro La Pelicula.mp4" },
+          { title: "Video 2", src: "imagenes/videos/video_2.mp4" },
+          { title: "Video 3", src: "imagenes/videos/video_3.mp4" }
+      ];
+
+      let currentWMPIndex = 0;
+      const wmpVideo = document.getElementById('wmpVideoElement');
+      let wmpFsTimeout = null;
+
+      function inicializarWMP() {
+          renderizarListaVideosWMP();
+          cargarVideoWMP(0);
+      }
+
+      function renderizarListaVideosWMP() {
+          const container = document.getElementById('wmpVideoListContainer');
+          if(!container) return;
+          container.innerHTML = '';
+          wmpVideosData.forEach((vid, index) => {
+              const item = document.createElement('div');
+              item.style.cssText = "padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8em; display: flex; align-items: center; gap: 6px; transition: background 0.15s;";
+              item.onmouseover = () => item.style.background = 'rgba(255,255,255,0.15)';
+              item.onmouseout = () => item.style.background = (index === currentWMPIndex ? 'rgba(59, 153, 252, 0.3)' : 'transparent');
+              item.style.background = (index === currentWMPIndex ? 'rgba(59, 153, 252, 0.3)' : 'transparent');
+
+              item.onclick = () => {
+                  cargarVideoWMP(index);
+                  wmpVideo.play().catch(e => console.log(e));
+                  document.getElementById('wmpPlayPauseIcon').className = "fas fa-pause";
+              };
+
+              item.innerHTML = `<i class="fas fa-film" style="color: #3b99fc; font-size: 0.85em;"></i> <span style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; flex: 1;">${vid.title}</span>`;
+              container.appendChild(item);
+          });
+      }
+
+      function cargarVideoWMP(index) {
+          currentWMPIndex = index;
+          const vid = wmpVideosData[index];
+          if(wmpVideo) {
+              wmpVideo.src = vid.src;
+          }
+          const titleEl = document.getElementById('wmpVideoTitle');
+          const subEl = document.getElementById('wmpVideoSub');
+          if(titleEl) titleEl.innerText = vid.title;
+          if(subEl) subEl.innerText = `In Another Session • 📁 ${vid.src}`;
+          renderizarListaVideosWMP();
+      }
+
+      function toggleWMPPlaylist() {
+          const panel = document.getElementById('wmpPlaylistPanel');
+          if (panel) {
+              panel.style.display = (panel.style.display === 'flex') ? 'none' : 'flex';
+          }
+      }
+
+      if(wmpVideo) {
+          wmpVideo.addEventListener('loadedmetadata', function() {
+              if(!isNaN(wmpVideo.duration)) {
+                  let dm = Math.floor(wmpVideo.duration / 60);
+                  let ds = Math.floor(wmpVideo.duration % 60);
+                  if(ds < 10) ds = '0' + ds;
+                  const durLabel = document.getElementById('wmpTotalDuration');
+                  if(durLabel) durLabel.innerText = `${dm}:${ds}`;
+              }
+          });
+      }
+
+      function actualizarProgresoWMP() {
+          if(!wmpVideo || !wmpVideo.duration) return;
+          const percent = (wmpVideo.currentTime / wmpVideo.duration) * 100;
+          const seekSlider = document.getElementById('wmpSeekSlider');
+          if(seekSlider) seekSlider.value = percent;
+
+          let m = Math.floor(wmpVideo.currentTime / 60);
+          let s = Math.floor(wmpVideo.currentTime % 60);
+          if(s < 10) s = '0' + s;
+          const curLabel = document.getElementById('wmpCurrentTime');
+          if(curLabel) curLabel.innerText = `${m}:${s}`;
+      }
+
+      function cambiarProgresoWMP(val) {
+          if(!wmpVideo || !wmpVideo.duration) return;
+          wmpVideo.currentTime = (val / 100) * wmpVideo.duration;
+      }
+
+      function togglePlayPauseWMP() {
+          if(!wmpVideo) return;
+          const icon = document.getElementById('wmpPlayPauseIcon');
+          if(wmpVideo.paused) {
+              wmpVideo.play().catch(e => console.log(e));
+              if(icon) icon.className = "fas fa-pause";
+          } else {
+              wmpVideo.pause();
+              if(icon) icon.className = "fas fa-play";
+          }
+      }
+
+      function videoSiguienteWMP() {
+          let nextIndex = currentWMPIndex + 1;
+          if (nextIndex >= wmpVideosData.length) nextIndex = 0;
+          cargarVideoWMP(nextIndex);
+          if(wmpVideo) {
+              wmpVideo.play().catch(e => console.log(e));
+          }
+          const icon = document.getElementById('wmpPlayPauseIcon');
+          if(icon) icon.className = "fas fa-pause";
+      }
+
+      function videoAnteriorWMP() {
+          let prevIndex = currentWMPIndex - 1;
+          if (prevIndex < 0) prevIndex = wmpVideosData.length - 1;
+          cargarVideoWMP(prevIndex);
+          if(wmpVideo) {
+              wmpVideo.play().catch(e => console.log(e));
+          }
+          const icon = document.getElementById('wmpPlayPauseIcon');
+          if(icon) icon.className = "fas fa-pause";
+      }
+
+      function cambiarVolumenWMP(val) {
+          if(wmpVideo) wmpVideo.volume = val;
+      }
+
+      function toggleFullscreenWMP() {
+          const wmpWindow = document.getElementById('win-video');
+          const header = document.getElementById('wmpWindowHeader');
+
+          try {
+              if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                  if (wmpWindow.requestFullscreen) {
+                      wmpWindow.requestFullscreen().catch(() => {
+                          if(wmpVideo) wmpVideo.requestFullscreen();
+                      });
+                  } else if (wmpWindow.webkitRequestFullscreen) {
+                      wmpWindow.webkitRequestFullscreen();
+                  }
+                  wmpWindow.classList.add('wmp-fullscreen-active');
+                  if (header) header.style.display = 'none';
+                  mostrarControlesFSWMP();
+              } else {
+                  if (document.exitFullscreen) {
+                      document.exitFullscreen().catch(() => {});
+                  } else if (document.webkitExitFullscreen) {
+                      document.webkitExitFullscreen();
+                  }
+              }
+          } catch (e) {
+              console.log("Fullscreen error:", e);
+          }
+      }
+
+      document.addEventListener('fullscreenchange', manejarCambioFullscreen);
+      document.addEventListener('webkitfullscreenchange', manejarCambioFullscreen);
+
+      function manejarCambioFullscreen() {
+          const wmpWindow = document.getElementById('win-video');
+          const header = document.getElementById('wmpWindowHeader');
+          if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+              if (wmpWindow) wmpWindow.classList.remove('wmp-fullscreen-active', 'hide-controls');
+              if (header) header.style.display = 'flex';
+              if (wmpFsTimeout) clearTimeout(wmpFsTimeout);
+          }
+      }
+
+      function mostrarControlesFSWMP() {
+          const wmpWindow = document.getElementById('win-video');
+          if (!document.fullscreenElement && !document.webkitFullscreenElement) return;
+
+          if (wmpWindow) wmpWindow.classList.remove('hide-controls');
+          if (wmpFsTimeout) clearTimeout(wmpFsTimeout);
+
+          wmpFsTimeout = setTimeout(() => {
+              if (document.fullscreenElement || document.webkitFullscreenElement) {
+                  if (wmpWindow) wmpWindow.classList.add('hide-controls');
+              }
+          }, 2500);
+      }
+
+      // ==========================================
+      // SPOTIFY PLAYLISTS & CONTROLS
+      // ==========================================
+      const playlistsData = {
+          supermix1: {
+              name: "Supermix 1",
+              bg: "#532020",
+              cover: "imagenes/supermix1/thechain.jpeg",
+              songs: [
+                  { title: "The Chain", src: "imagenes/supermix1/Fleetwood Mac - The Chain (Official Audio).mp3", cover: "imagenes/supermix1/thechain.jpeg" },
+                  { title: "See you again", src: "imagenes/supermix1/Tyler, The Creator - See You Again (Audio) ft. Kali Uchis.mp3", cover: "imagenes/supermix1/seeyouagain.jpg" }
+              ]
+          },
+          supermix2: {
+              name: "Supermix 2",
+              bg: "#203a53",
+              cover: "imagenes/supermix2/cover1.jpg",
+              songs: [
+                  { title: "Mix Alternativo 1", src: "imagenes/supermix2/track1.mp3", cover: "imagenes/supermix2/cover1.jpg" },
+                  { title: "Mix Alternativo 2", src: "imagenes/supermix2/track2.mp3", cover: "imagenes/supermix2/cover2.jpg" }
+              ]
+          },
+          supermix3: {
+              name: "Supermix 3",
+              bg: "#205335",
+              cover: "imagenes/supermix3/cover1.jpg",
+              songs: [
+                  { title: "Épico Supermix 3", src: "imagenes/supermix3/song1.mp3", cover: "imagenes/supermix3/cover1.jpg" },
+                  { title: "Cierre Supermix 3", src: "imagenes/supermix3/song2.mp3", cover: "imagenes/supermix3/cover2.jpg" }
+              ]
+          }
+      };
+
+      let activeSupermix = 'supermix1';
+      let currentSongIndex = null;
+
+      function cambiarSupermix(mixKey) {
+          activeSupermix = mixKey;
+          const mix = playlistsData[mixKey];
+
+          const titleName = document.getElementById('playlistTitleName');
+          const countText = document.getElementById('songCountText');
+          const headerImg = document.getElementById('playlistHeaderImg');
+          if(titleName) titleName.innerText = mix.name;
+          if(countText) countText.innerText = mix.songs.length + " canciones";
+          if(headerImg) headerImg.src = mix.cover;
+
+          const centerContainer = document.getElementById('spotifyCenterContainer');
+          if(centerContainer) {
+              centerContainer.style.background = `linear-gradient(to bottom, ${mix.bg} 0%, #121212 40%)`;
+          }
+
+          document.querySelectorAll('.sp-nav-btn').forEach(btn => {
+              btn.style.background = 'transparent';
+              btn.style.color = '#b3b3b3';
+          });
+          const activeNav = document.getElementById('nav-' + mixKey);
+          if(activeNav) {
+              activeNav.style.background = '#282828';
+              activeNav.style.color = '#fff';
+          }
+
+          renderizarListaCanciones();
+      }
+
+      function renderizarListaCanciones() {
+          const listContainer = document.getElementById('spotifySongList');
+          if(!listContainer) return;
+          listContainer.innerHTML = '';
+          const mix = playlistsData[activeSupermix];
+
+          mix.songs.forEach((song, index) => {
+              const row = document.createElement('div');
+              row.style.cssText = "display: flex; align-items: center; padding: 8px; border-radius: 4px; cursor: pointer; transition: background 0.15s;";
+              row.onmouseover = () => row.style.background = 'rgba(255,255,255,0.1)';
+              row.onmouseout = () => row.style.background = 'transparent';
+              
+              row.onclick = () => reproducirSpotifyCancion(index);
+
+              row.innerHTML = `
+                <span style="width: 30px; color: #b3b3b3; font-size: 0.8em;">${index + 1}</span>
+                <div style="display: flex; align-items: center; gap: 10px; flex: 1; overflow: hidden;">
+                  <img src="${song.cover}" style="width: 38px; height: 38px; border-radius: 3px; object-fit: cover; flex-shrink: 0;" alt="">
+                  <div style="overflow: hidden; flex: 1;">
+                    <p style="font-size: 0.85em; font-weight: bold; margin: 0; color: #fff; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${song.title}</p>
+                    <p style="font-size: 0.7em; color: #b3b3b3; margin: 2px 0 0 0;">Avila • ${mix.name}</p>
+                  </div>
+                </div>
+                <span id="songDuration-${index}" style="width: 80px; text-align: right; color: #b3b3b3; font-size: 0.8em;">--:--</span>
+              `;
+              listContainer.appendChild(row);
+
+              const tempAudio = new Audio(song.src);
+              tempAudio.addEventListener('loadedmetadata', function() {
+                  let dm = Math.floor(tempAudio.duration / 60);
+                  let ds = Math.floor(tempAudio.duration % 60);
+                  if(ds < 10) ds = '0' + ds;
+                  const durationSpan = document.getElementById(`songDuration-${index}`);
+                  if(durationSpan) durationSpan.innerText = `${dm}:${ds}`;
+              });
+          });
+      }
+
+      function reproducirSpotifyCancion(index) {
+          currentSongIndex = index;
+          const song = playlistsData[activeSupermix].songs[index];
+          const mix = playlistsData[activeSupermix];
+          const audio = document.getElementById('spotifyAudioPlayer');
+
+          if(audio) {
+              audio.src = song.src;
+              audio.play().catch(e => console.log("Audio bloqueado:", e));
+          }
+
+          const fTitle = document.getElementById('footerSongTitle');
+          const fMix = document.getElementById('footerPlaylistName');
+          const fCover = document.getElementById('footerCoverImg');
+          const playIcon = document.getElementById('playPauseIcon');
+
+          if(fTitle) fTitle.innerText = song.title;
+          if(fMix) fMix.innerText = mix.name;
+          if(fCover) fCover.src = song.cover;
+          if(playIcon) playIcon.className = "fas fa-pause";
+      }
+
+      function cancionSiguiente() {
+          if (currentSongIndex === null) return;
+          const mixSongs = playlistsData[activeSupermix].songs;
+          let nextIndex = currentSongIndex + 1;
+          if (nextIndex >= mixSongs.length) nextIndex = 0;
+          reproducirSpotifyCancion(nextIndex);
+      }
+
+      function cancionAnterior() {
+          if (currentSongIndex === null) return;
+          const mixSongs = playlistsData[activeSupermix].songs;
+          let prevIndex = currentSongIndex - 1;
+          if (prevIndex < 0) prevIndex = mixSongs.length - 1;
+          reproducirSpotifyCancion(prevIndex);
+      }
+
+      const spotifyAudio = document.getElementById('spotifyAudioPlayer');
+      if(spotifyAudio) {
+          spotifyAudio.addEventListener('loadedmetadata', function() {
+              if(!isNaN(spotifyAudio.duration)) {
+                  let dm = Math.floor(spotifyAudio.duration / 60);
+                  let ds = Math.floor(spotifyAudio.duration % 60);
+                  if(ds < 10) ds = '0' + ds;
+                  const totLabel = document.getElementById('totalDurationLabel');
+                  if(totLabel) totLabel.innerText = `${dm}:${ds}`;
+              }
+          });
+      }
+
+      function actualizarProgreso() {
+          const audio = document.getElementById('spotifyAudioPlayer');
+          if(!audio || !audio.duration) return;
+          
+          const percent = (audio.currentTime / audio.duration) * 100;
+          const fill = document.getElementById('progressBarFill');
+          if(fill) fill.style.width = percent + '%';
+
+          let m = Math.floor(audio.currentTime / 60);
+          let s = Math.floor(audio.currentTime % 60);
+          if(s < 10) s = '0' + s;
+          const curLabel = document.getElementById('currentTimeLabel');
+          if(curLabel) curLabel.innerText = `${m}:${s}`;
+      }
+
+      function seekAudio(event) {
+          const audio = document.getElementById('spotifyAudioPlayer');
+          if(!audio || !audio.duration) return;
+
+          const container = document.getElementById('progressBarContainer');
+          if(!container) return;
+          const rect = container.getBoundingClientRect();
+          const clickPosition = (event.clientX - rect.left) / rect.width;
+          audio.currentTime = clickPosition * audio.duration;
+      }
+
+      function togglePlayPause() {
+          const audio = document.getElementById('spotifyAudioPlayer');
+          const icon = document.getElementById('playPauseIcon');
+          if(!audio) return;
+          if(audio.paused) {
+              if(audio.src) {
+                  audio.play();
+                  if(icon) icon.className = "fas fa-pause";
+              } else {
+                  reproducirSpotifyCancion(0);
+              }
+          } else {
+              audio.pause();
+              if(icon) icon.className = "fas fa-play";
+          }
+      }
+
+      function cambiarVolumen(val) {
+          const audio = document.getElementById('spotifyAudioPlayer');
+          if(audio) audio.volume = val;
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+          cambiarSupermix('supermix1');
+          inicializarWMP();
+          actualizarBarraDeTareas();
+      });
+  </script>
+
+</body>
+</html>
